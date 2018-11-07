@@ -28,6 +28,7 @@
         </li>
           {% endfor %}
     </ul>
+<div class="page">
           <!--# 如果存在上一页-->
     {% if page.has_prev %}
         <a href="/?page={{ page.prev_num }}">上一页:</a>
@@ -38,5 +39,6 @@
     {% if page.has_next %}
          <a href="/?page={{ page.next_num }}">下一页:</a></a>
     {% endif %}
+</div>
 {% endblock %}
 
