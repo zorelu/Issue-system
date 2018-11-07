@@ -3,7 +3,7 @@ from loginreq import login_req
 import config
 from exts import db
 from models import User,Question
-
+from datetime import timedelta
 app = Flask(__name__)
 app.config.from_object(config)
 db.init_app(app)
@@ -59,6 +59,8 @@ def login():
                 #存放session的用户id
                 session['user_id'] = user.id
                 session.permanet = True
+                ###设置seeson过期
+                app.permanent_session_lifetime = timedelta(minutes=30)
                 return redirect(url_for('index'))
             else:
                 return '用户名密码错误'
