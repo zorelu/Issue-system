@@ -5,6 +5,7 @@
 {% endblock %}
 {%block main %}
     <ul class="question-ul">
+
         {% for question in questions %}
                         <div class="side-question">
             <img class="side-question-avatar" src="{{url_for('static',filename='images/favicon.ico')}}" alt="">
@@ -27,4 +28,15 @@
         </li>
           {% endfor %}
     </ul>
+          <!--# 如果存在上一页-->
+    {% if page.has_prev %}
+        <a href="/?page={{ page.prev_num }}">上一页:</a>
+    {% endif %}
+
+    当前的页数：{{ page.page }}
+    <!--# 如果存在下一页-->
+    {% if page.has_next %}
+         <a href="/?page={{ page.next_num }}">下一页:</a></a>
+    {% endif %}
 {% endblock %}
+
