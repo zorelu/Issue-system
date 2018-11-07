@@ -128,7 +128,7 @@ def delete(delete_id):
         else:
             return  '没有权限删除'
 
-
+###HOOK 函数
 @app.context_processor
 ##装修{% if user %}
 def my_context_processoer():
@@ -137,6 +137,16 @@ def my_context_processoer():
         user = User.query.filter(User.id == user_id).first()
         if user:
             return {'user':user}
+    return {}
+###HOOK 函数
+@app.context_processor
+def my_context_delete():
+    user_id = session.get('user_id')
+    if user_id:
+        dele1 = Question.query.filter(Question.author_id == user_id).first()
+        if dele1:
+            return {'dele1':dele1}
+        #### 无论如何都要返回空
     return {}
 ##监听端口
 app.run(host='0.0.0.0')
