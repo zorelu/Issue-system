@@ -14,6 +14,7 @@ class User(db.Model):
 class Question(db.Model):
     __tablename__ = 'questions'
     id = db.Column(db.Integer,primary_key=True)
+    username = db.Column(db.String(100), nullable=False)
     title = db.Column(db.String(100),nullable=False)
     context = db.Column(db.Text,nullable=False)
     # username = db.Column(db.String(100),nullable=False)

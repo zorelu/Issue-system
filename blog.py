@@ -85,7 +85,8 @@ def question():
        title  = request.form['title']
        context = request.form['context']
        user_id = session.get('user_id')
-       questions = Question(title=title,context=context,author_id= user_id)
+       username = (User.query.filter(User.id == user_id ).first()).username
+       questions = Question(title=title,context=context,author_id= user_id,username=username)
        db.session.add(questions)
        db.session.commit()
        return redirect(url_for('index'))
