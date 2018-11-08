@@ -19,5 +19,16 @@
         <hr>
 
  {% endfor %}
+<div class="page">
+          <!--# 如果存在上一页-->
+    {% if userpage.has_prev %}
+        <a href="/center/?page={{ userpage.prev_num }}">上一页:</a>
+    {% endif %}
 
+    当前的页数：{{ userpage.page }}
+    <!--# 如果存在下一页-->
+    {% if userpage.has_next %}
+         <a href="/center/?page={{ userpage.next_num }}">下一页:</a></a>
+    {% endif %}
+</div>
 {% endblock %}

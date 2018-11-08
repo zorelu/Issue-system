@@ -112,17 +112,22 @@ def detail(question_id):
 
 
 
-@app.route('/center/<users_id>')
+@app.route('/center/')
+@app.route('/center/<int:page>/',methods=['GET', 'POST'])
 
 #用户中心路由。
-def center(users_id):
+def center(page=None):
+    page = int(request.args.get('page', 1))
+    # 获取get请求传过来的以多少条数据分页的参数，默认为5
+    per_page = int(request.args.get('per_page', 5))
     user_id = session.get('user_id')
+    userpage = Question.query.filter(Question.author_id == user_id ).paginate(page, per_page, error_out=False)
     usertext = {
-        'questions': Question.query.filter(Question.author_id == user_id ).all()
+        'questions': userpage.items
     }
     # user_model = Question.query.filter(Question.author_id == user_id ).first()
     # print(question_id)
-    return render_template('center.html',**usertext)
+    return render_template('center.html',userpage=userpage,**usertext)
 
 @app.route('/delete/<delete_id>',methods=['GET', 'POST'])
 # 判断用户是否登陆，否则返回登陆页面的路由装饰器
@@ -154,11 +159,15 @@ def my_context_processoer():
             return {'user':user}
     return {}
 ###HOOK 函数
+# 删除功能hook
 @app.context_processor
 def my_context_delete():
     user_id = session.get('user_id')
     if user_id:
-        dele1 = Question.query.filter(Question.author_id == user_id).first()
+        dele1 = Question.query.filter_by(author_id = user_id).first()
+        user = User.query.filter_by(id = user_id).first()
+        # print(user.username)
+        # print(dele1.username)
         if dele1:
             return {'dele1':dele1}
         #### 无论如何都要返回空
