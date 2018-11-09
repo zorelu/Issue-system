@@ -1,6 +1,8 @@
 from flask import Flask,render_template,request,redirect,url_for,session
 from loginreq import login_req
 import config
+from werkzeug.utils import secure_filename
+import os
 from exts import db
 from models import User,Question
 from datetime import timedelta
@@ -40,7 +42,7 @@ def regist():
         username = request.form['username']
         password1 = request.form['password1']
         password2 = request.form['password2']
-        img_url =  username + '.jpg'
+        img_url =  'default.jpg'
         #判断手机号是否存在重复
         user = User.query.filter(User.telephone == telephone).first()
         if user:
@@ -147,6 +149,25 @@ def delete(delete_id):
             return redirect(url_for('index'))
         else:
             return  '没有权限删除'
+
+
+
+@app.route('/upload', methods=['POST', 'GET'])
+def upload():
+    if request.method == 'POST':
+        f = request.files['file']
+        basepath = os.path.dirname(__file__)  # 当前文件所在路径
+        print(f.filename)
+        uploadfile = basepath + '/static/images'
+        upload_path = os.path.join( uploadfile,secure_filename(f.filename))
+        f.save(upload_path)
+        user_id = session.get('user_id')
+        userimg = User.query.filter(User.id == user_id ).first()
+        userimg.img_url = f.filename
+        db.session.commit()
+        return redirect(url_for('center'))
+    return render_template('center.html')
+
 
 ###HOOK 函数
 @app.context_processor

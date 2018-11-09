@@ -7,6 +7,10 @@
 {% block main %}
     <h3 class="h3">个人中心</h3>
     <!--<h4>上传头像</h4>-->
+   <form action="{{ url_for('upload') }}" enctype='multipart/form-data' method='POST'>
+        <input type="file" name="file">
+        <input type="submit" value="上传">
+    </form>
     <!--<input id="input-1a" type="file" class="file" data-show-preview="false">-->
         <span>我的文章:</span>
     {#从 questions变量中循环usertext变量再赋值 #}
