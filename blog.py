@@ -21,6 +21,7 @@ def index(page=None):
     # 获取get请求传过来的以多少条数据分页的参数，默认为5
     per_page = int(request.args.get('per_page', 5))
 
+
     ###按时间排序 -号
     page = Question.query.order_by('-create_time').paginate(page, per_page, error_out=False)
     # print(page)
