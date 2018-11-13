@@ -22,6 +22,7 @@ def index(page=None):
     per_page = int(request.args.get('per_page', 5))
 
 
+
     ###按时间排序 -号
     page = Question.query.order_by('-create_time').paginate(page, per_page, error_out=False)
     # print(page)
@@ -30,7 +31,13 @@ def index(page=None):
         'questions' :page.items
         # 'questions' : Question.query.order_by('-create_time').all()
     }
-    return render_template('index.html',page=page,**context)
+    ###获取文章用户头像
+    # b = page.items
+    for getimg in page.items:
+        userimg = User.query.filter(getimg.author_id == User.id).first()
+        # print (img1.img_url)
+
+    return render_template('index.html',userimg=userimg,page=page,**context)
 
 @app.route('/regist/', methods=['GET', 'POST'])
 #注册路由
