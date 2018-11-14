@@ -7,8 +7,9 @@
     <ul class="question-ul">
 
         {% for question in questions %}
-                        <div class="side-question">
-            <img class="side-question-avatar" src="{{url_for('static',filename='images/favicon.ico')}}" alt="">
+                <div class="side-question">
+            <img class="side-question-avatar" src="static/images/{{userimg.img_url}}" alt="" >
+
                 </div>
         <li>
             <div class="question-main">
