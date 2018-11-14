@@ -1,5 +1,7 @@
 # DEMO
 
+## [python 虚拟环境](https://www.jianshu.com/p/08c657bd34f1)
+
 ## 环境依赖
 
 - python 3.4+
@@ -21,7 +23,7 @@
 
 - python manage.py db migrate
 
-- 更新 python manage.py db upgrade
+- python manage.py db upgrade
 
 - 创建数据库
 
@@ -78,8 +80,8 @@ per_page = int(request.args.get('per_page', 5))
 page = Question.query.order_by('-create_time').paginate(page, per_page, error_out=False) # print(page)
 
 context = {
-'questions' :page.items
-#'questions' : Question.query.order_by('-create_time').all()
+    'questions' :page.items
+    #'questions' : Question.query.order_by('-create_time').all()
 }
 
 # 传值
