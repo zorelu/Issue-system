@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{%block title %}index{% endblock %}
+{%block title %}首页{% endblock %}
 {%block head %}
 <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
 {% endblock %}
@@ -7,10 +7,10 @@
     <ul class="question-ul">
 
         {% for question in questions %}
-                <div class="side-question">
+               {# <div class="side-question">
             <img class="side-question-avatar" src="static/images/{{userimg.img_url}}" alt="" >
 
-                </div>
+                </div>#}
         <li>
             <div class="question-main">
                 <!--利用question_id反转链接路由到/detail/<question_id> 并用uestions_model = Question.query.filter(Question.id == question_id ).first() 查到一条数据-->
@@ -39,6 +39,7 @@
     <!--# 如果存在下一页-->
     {% if page.has_next %}
          <a href="/?page={{ page.next_num }}">下一页:</a></a>
+    
     {% endif %}
 </div>
 {% endblock %}

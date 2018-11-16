@@ -13,16 +13,12 @@ db.init_app(app)
 
 @app.route('/')
 @app.route('/<int:page>',methods=['GET', 'POST'])
-
 #首页路由
 def index(page=None):
     # 获取get请求传过来的页数,没有传参数，默认为1
     page = int(request.args.get('page', 1))
     # 获取get请求传过来的以多少条数据分页的参数，默认为5
     per_page = int(request.args.get('per_page', 5))
-
-
-
     ###按时间排序 -号
     page = Question.query.order_by('-create_time').paginate(page, per_page, error_out=False)
     # print(page)
@@ -30,13 +26,14 @@ def index(page=None):
     context = {
         'questions' :page.items
         # 'questions' : Question.query.order_by('-create_time').all()
+
     }
     ###获取文章用户头像
     # b = page.items
+    # print (page.items)
     for getimg in page.items:
-        userimg = User.query.filter(getimg.author_id == User.id).first()
-        # print (img1.img_url)
-
+        # print(getimg.username)
+        userimg = User.query.filter(getimg.username == User.username).first()
     return render_template('index.html',userimg=userimg,page=page,**context)
 
 @app.route('/regist/', methods=['GET', 'POST'])
@@ -139,24 +136,24 @@ def center(page=None):
     # print(question_id)
     return render_template('center.html',userpage=userpage,**usertext)
 
-@app.route('/delete/<delete_id>',methods=['GET', 'POST'])
-# 判断用户是否登陆，否则返回登陆页面的路由装饰器
-@login_req
-#删除用户文章的路由
-def delete(delete_id):
-    if request.method == 'GET':
-            return render_template('index.html')
-    else:
-        #判断用户id是否一致，才去删除
-        user_id = session.get('user_id')
-        userid = Question.query.filter(Question.author_id == user_id).first()
-        if userid :
-            dele = Question.query.filter(Question.id == delete_id).first()
-            db.session.delete(dele)
-            db.session.commit()
-            return redirect(url_for('index'))
-        else:
-            return  '没有权限删除'
+# @app.route('/delete/<delete_id>',methods=['GET', 'POST'])
+# # 判断用户是否登陆，否则返回登陆页面的路由装饰器
+# @login_req
+# #删除用户文章的路由
+# def delete(delete_id):
+#     if request.method == 'GET':
+#             return render_template('index.html')
+#     else:
+#         #判断用户id是否一致，才去删除
+#         user_id = session.get('user_id')
+#         userid = Question.query.filter(Question.author_id == user_id).first()
+#         if userid :
+#             dele = Question.query.filter(Question.id == delete_id).first()
+#             db.session.delete(dele)
+#             db.session.commit()
+#             return redirect(url_for('index'))
+#         else:
+#             return  '没有权限删除'
 
 
 
@@ -189,18 +186,18 @@ def my_context_processoer():
     return {}
 ###HOOK 函数
 # 删除功能hook
-@app.context_processor
-def my_context_delete():
-    user_id = session.get('user_id')
-    if user_id:
-        dele1 = Question.query.filter_by(author_id = user_id).first()
-        user = User.query.filter_by(id = user_id).first()
-        # print(user.username)
-        # print(dele1.username)
-        if dele1:
-            return {'dele1':dele1}
-        #### 无论如何都要返回空
-    return {}
+# @app.context_processor
+# def my_context_delete():
+#     user_id = session.get('user_id')
+#     if user_id:
+#         dele1 = Question.query.filter_by(author_id = user_id).first()
+#         user = User.query.filter_by(id = user_id).first()
+#         # print(user.username)
+#         # print(dele1.username)
+#         if dele1:
+#             return {'dele1':dele1}
+#         #### 无论如何都要返回空
+#     return {}
 ##监听端口
 app.run(host='0.0.0.0')
 
