@@ -31,10 +31,10 @@ def index(page=None):
     ###获取文章用户头像
     # b = page.items
     # print (page.items)
-    for getimg in page.items:
+    #for getimg in page.items:
         # print(getimg.username)
-        userimg = User.query.filter(getimg.username == User.username).first()
-    return render_template('index.html',userimg=userimg,page=page,**context)
+     #   userimg = User.query.filter(getimg.username == User.username).first()
+    return render_template('index.html',page=page,**context)
 
 @app.route('/regist/', methods=['GET', 'POST'])
 #注册路由
