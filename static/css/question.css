@@ -1,11 +1,12 @@
-.form-container{
-    width: 500px;
-    margin: 0 auto;
-}
-.h3{
-    text-align:center;
-}
-.btn-primary{
-width: 500px;
+.form-container {
+  width: 500px;
+  margin: 0 auto;
 }
 
+.h3 {
+  text-align: center;
+}
+
+.btn-primary {
+  width: 500px;
+}

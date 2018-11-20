@@ -1,5 +1,5 @@
-.logo{
-    width : 100px;
+.logo {
+  width: 100px;
 }
 
 .container-fluid {
@@ -8,12 +8,14 @@
   margin-right: auto;
   margin-left: auto;
 }
-.main{
-    background: #fff;
-    width: 730px;
-    overflow: hidden;
-    margin: 0 auto;
+
+.main {
+  background: #fff;
+  width: 730px;
+  overflow: hidden;
+  margin: 0 auto;
 }
-.img{
- width: 40px;
+
+.img {
+  width: 40px;
 }
