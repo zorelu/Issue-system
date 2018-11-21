@@ -162,13 +162,18 @@ def delete(delete_id):
 def upload():
   if request.method == 'POST':
     f = request.files['file']
-    basepath = os.path.dirname(__file__)  # 当前文件所在路径
-    print(f.filename)
-    uploadfile = basepath + '/static/images'
-    upload_path = os.path.join( uploadfile,secure_filename(f.filename))
+    # 要保存文件的路径
+    uploadfile = os.path.abspath('./static/images')
+    # 获取文件类型
+    filename = f.filename
+    filesplit = filename.split('.')
+    index = len(filesplit) - 1
+    # 拼接最终路径
+    upload_path = os.path.join(uploadfile, 'logo.'+filesplit[index])
+    print(upload_path)
     f.save(upload_path)
     user_id = session.get('user_id')
-    userimg = User.query.filter(User.id == user_id ).first()
+    userimg = User.query.filter(User.id == user_id).first()
     userimg.img_url = f.filename
     db.session.commit()
     return redirect(url_for('center'))
@@ -199,8 +204,10 @@ def my_context_delete():
         return {'dele1':dele1}
     #### 无论如何都要返回空
   return {}
+
+app.debug = True
 ##监听端口
-app.run(host='0.0.0.0')
+app.run(host='127.0.0.1')
 
 # @app.route('/hidw/<a>',methods=['GET', 'POST']))
 # def hid():
