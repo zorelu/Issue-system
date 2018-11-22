@@ -4,6 +4,7 @@ import config
 from werkzeug.utils import secure_filename
 import os
 from exts import db
+import time
 from models import User,Question
 from datetime import timedelta
 app = Flask(__name__)
@@ -161,6 +162,7 @@ def delete(delete_id):
 @app.route('/upload', methods=['POST', 'GET'])
 def upload():
   if request.method == 'POST':
+    t = time.time()
     f = request.files['file']
     # 要保存文件的路径
     uploadfile = os.path.abspath('./static/images')
@@ -168,13 +170,14 @@ def upload():
     filename = f.filename
     filesplit = filename.split('.')
     index = len(filesplit) - 1
+    name = 'logo_'+ str(int(t)) +'.' + filesplit[index]
     # 拼接最终路径
-    upload_path = os.path.join(uploadfile, 'logo.'+filesplit[index])
+    upload_path = os.path.join(uploadfile, name)
     print(upload_path)
     f.save(upload_path)
     user_id = session.get('user_id')
     userimg = User.query.filter(User.id == user_id).first()
-    userimg.img_url = f.filename
+    userimg.img_url = name
     db.session.commit()
     return redirect(url_for('center'))
   return render_template('center.html')
