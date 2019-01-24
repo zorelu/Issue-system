@@ -87,4 +87,3 @@ context = {
 # 传值
 return render_template('index.html',page=page,\*\*context)
 ```
-###123
